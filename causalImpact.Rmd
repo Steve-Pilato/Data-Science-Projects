@@ -1,0 +1,38 @@
+---
+title: "Causal Impact Analysis"
+author: "Steven Pilato"
+date: '2022-10-10'
+output: html_document
+---
+
+```{r}
+suppressPackageStartupMessages(library(CausalImpact))
+```
+
+#
+
+```{r}
+x <- arima.sim(model = list(ma = .8), n = 100)
+x[50:100] <- x[50:100]  + 5
+plot(x, lwd = 1.5, main = 'Simulated Data')
+df <- data.frame(x = x)
+
+```
+# 
+
+```{r}
+pre.period <- c(1, 49)
+post.period <- c(50, 100)
+impact <- CausalImpact(df, pre.period, post.period)
+plot(impact)
+
+```
+
+```{r}
+
+summary(impact, 'report')
+
+
+```
+
+
